@@ -21,12 +21,26 @@ node {
         // when running in multi-branch job, one must issue this command
         checkout scm
     }
+    // extra code added
     server_key_files="/var/lib/jenkins/workspace/newjob_/certs/server.key"
     echo server_key_files
+    
+     SF_AUTH_URL = env.SFDX_AUTH_URL
+    echo SF_AUTH_URL
+    writeFile file: 'authjenkinsci.txt', text: SF_AUTH_URL
+    sh 'ls -l authjenkinsci.txt'
+    sh 'cat authjenkinsci.txt'
+    echo 'end sf auth method'
+
+    // extra code ended here
     withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
         stage('Deploye Code') {
             if (isUnix()) {
-                rc = sh returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${server_key_files} --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
+                
+                 sh 'cd /var/lib/jenkins/workspace/newjob_'
+                rc = sh returnStatus: true, script: "sfdx force:auth:sfdxurl:store -f authjenkinsci.txt -a targetEnvironment"
+
+               // rc = sh returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${server_key_files} --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
             }else{
                  rc = bat returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile \"${server_key_files}\" --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
             }
