@@ -39,8 +39,9 @@ node {
                 
                 //  sh 'cd /var/lib/jenkins/workspace/newjob1_'
                 // rc = sh returnStatus: true, script: "sfdx force:auth:sfdxurl:store -f authjenkinsci.txt -a vscodeaws"
+               rc = sh returnStatus: true, script: '''sfdx force:auth:jwt:grant --clientid 3MVG9fe4g9fhX0E6cxIQNLr5l73TAm3m_yZ1L3WckxNkkpyQU0__JmpryOXnunFwBGmd_nIhYbE5EUUd0RfRN --username sfdxdevelopment2020@gmail.com --jwtkeyfile 0402b8e2-c9ff-4b9b-bd2b-25bb0aa36012 -a vscodeaws --instanceurl https://login.salesforce.com'''
 
-                rc = sh returnStatus: true, script: '''sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${JWT_KEY_CRED_ID} -a vscodeaws --instanceurl ${SFDC_HOST}'''
+               // rc = sh returnStatus: true, script: '''sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${JWT_KEY_CRED_ID} -a vscodeaws --instanceurl ${SFDC_HOST}'''
             }else{
                  rc = bat returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile \"${JWT_KEY_CRED_ID}\" --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
             }
