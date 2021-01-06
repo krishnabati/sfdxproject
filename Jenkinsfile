@@ -37,7 +37,7 @@ node {
         stage('Deploye Code') {
             if (isUnix()) {
                 
-                 sh 'cd /var/lib/jenkins/workspace/newjob_'
+                 sh 'cd /var/lib/jenkins/workspace/newjob1_'
                 rc = sh returnStatus: true, script: "sfdx force:auth:sfdxurl:store -f authjenkinsci.txt -a vscodeaws"
 
                // rc = sh returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${server_key_files} --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
